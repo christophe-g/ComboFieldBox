@@ -1,0 +1,113 @@
+/**
+ * @var {color} $base-color
+ * The base color to be used throughout the theme.
+ */
+/* line 7, ../../scss/form/combofieldbox.scss */
+.x-form-field.x-boxselect {
+  padding: 0px 3px;
+}
+
+/* line 11, ../../scss/form/combofieldbox.scss */
+.x-boxselect ul.x-boxselect-list {
+  height: auto;
+  cursor: text;
+  min-height: 20px;
+  padding: 0px;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+/* line 19, ../../scss/form/combofieldbox.scss */
+.x-boxselect input {
+  border: none;
+  background: none;
+  line-height: 18px;
+  height: 20px;
+}
+
+/* line 26, ../../scss/form/combofieldbox.scss */
+.x-boxselect-input, .x-boxselect-item {
+  display: inline-block;
+  position: relative;
+  *display: inline;
+  /* IE7 */
+  zoom: 1;
+  /* IE */
+}
+
+/* line 32, ../../scss/form/combofieldbox.scss */
+.x-boxselect-stacked .x-boxselect-item {
+  display: block;
+}
+
+/* line 35, ../../scss/form/combofieldbox.scss */
+.x-boxselect-item {
+  -moz-border-radius: 6px;
+  -webkit-border-radius: 6px;
+  -o-border-radius: 6px;
+  -ms-border-radius: 6px;
+  -khtml-border-radius: 6px;
+  border-radius: 6px;
+  border: 1px solid #8fafe0;
+  padding: 0px 1px 0px 5px !important;
+  margin: 1px 1px 1px 0;
+  background-color: #dfe8f6;
+  cursor: default;
+}
+
+/* line 43, ../../scss/form/combofieldbox.scss */
+.x-field:not(.x-item-disabled) .x-boxselect-item:hover {
+  background: #b7cbeb;
+  border: 1px solid #6892d4;
+}
+
+/* line 49, ../../scss/form/combofieldbox.scss */
+.x-field:not(.x-item-disabled) .x-boxselect-item.x-item-selected {
+  background: #6892d4;
+  color: white;
+  border: 1px solid #0557be !important;
+}
+
+/* line 56, ../../scss/form/combofieldbox.scss */
+.x-boxselect-item-text {
+  line-height: 16px;
+  padding-right: 20px;
+}
+
+/* line 60, ../../scss/form/combofieldbox.scss */
+.x-boxselect-item-close {
+  cursor: pointer;
+}
+
+/* line 63, ../../scss/form/combofieldbox.scss */
+.x-boxselect .empty {
+  color: gray;
+}
+
+/* line 66, ../../scss/form/combofieldbox.scss */
+.x-boxselect-icon, .x-boundlist-icon {
+  background-repeat: no-repeat !important;
+  background-position: 2px center !important;
+}
+
+/* line 70, ../../scss/form/combofieldbox.scss */
+.x-boxselect-icon {
+  text-indent: 17px !important;
+}
+
+/* line 73, ../../scss/form/combofieldbox.scss */
+.x-boundlist-icon {
+  text-indent: 20px !important;
+}
+
+.x-icon-au{
+    background-image: url(img/Australia.png) !important;
+}
+.x-icon-at{
+    background-image: url(img/Austria.png) !important;
+}
+.x-icon-fr{
+    background-image: url(img/France.png) !important;
+}
+
+
+

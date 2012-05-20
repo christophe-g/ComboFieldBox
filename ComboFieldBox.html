@@ -1,0 +1,142 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+    <title>MY EXAMPLES</title>
+	
+    <link rel="stylesheet" type="text/css" href="../../extjs-4.1.1-rc1/resources/css/ext-all.css">
+    <!--link rel="stylesheet" type="text/css" href="colorField.css"-->
+    <link rel="stylesheet" type="text/css" href="ComboFieldBox.css">
+
+    <script type="text/javascript" src="../../extjs-4.1.1-rc1/ext-all-debug.js"></script>
+    <script type="text/javascript" src="ComboView.js"></script>
+    <script type="text/javascript" src="ComboFieldBox.js"></script>
+   	<!--script type="text/javascript" src="ComboTree.js"></script-->
+    <script>
+		// Define the model for a State
+		Ext.define('State', {
+			extend: 'Ext.data.Model',
+			fields: [
+				{type: 'string',name: 'abbr'},
+				{type: 'string',name: 'name'},
+				{type: 'string',name: 'slogan'},
+				{type: 'string',name: 'iconCls'}
+			],
+		});
+ Ext.onReady(function () {
+	Ext.tip.QuickTipManager.init();
+
+
+	// The data for all states
+	var states = [{"abbr": "AL","name": "Alabama","slogan": "The Heart of Dixie"},
+			{"abbr": "FR","name": "France","slogan": "Sarkozy will never be elected again. French people are not that stupid!", iconCls: 'x-icon-fr'},
+			{"abbr": "AU","name": "Australia", iconCls: 'x-icon-au'},
+			{"abbr": "AT","name": "Austria", iconCls: 'x-icon-at'},
+			{"abbr": "AK","name": "Alaska","slogan": "The Land of the Midnight Sun"},
+			{"abbr": "AZ","name": "Arizona","slogan": "The Grand Canyon State"},
+			{"abbr": "AR","name": "Arkansas","slogan": "The Natural State"},
+			{"abbr": "CA","name": "California","slogan": "The Golden State"},
+			{"abbr": "CO","name": "Colorado","slogan": "The Mountain State"},
+			{"abbr": "CT","name": "Connecticut","slogan": "The Constitution State"},
+			{"abbr": "IA","name": "Iowa","slogan": "The Corn State"},
+			{"abbr": "LT","name": "Long test to see if it gets ellipsifyed","slogan": "The Constitution State"}
+			];
+	var i;
+	for (i= 0; i<100; i++){
+		states.push({abbr: i, name: i, slogan: i})
+	}
+	
+	
+	
+	var store = Ext.create('Ext.data.Store', {
+		model: 'State',
+		data: states
+	});
+
+
+    
+	var comboFieldBox = Ext.create('Ext.ux.ComboFieldBox', {
+        fieldLabel: 'comboFieldBox {typeAhead : true, iconClsField: "iconCls"}',
+        displayField: 'name',
+        iconClsField: 'iconCls',
+        valueField: 'abbr',
+        value: ['FR'],
+        descField: 'slogan',
+        emptyText: 'select a state ...', 
+        width: 320,
+        //editable: false,
+        labelWidth: 130,
+        //trigger2Cls:null,
+        trigger1Cls: null,
+        store: store,
+        //multiSelect: false,
+        queryMode: 'local',
+		typeAhead: true,
+		//selectOnTab: true
+	});
+	
+	var comboFieldBox2 = Ext.create('Ext.ux.ComboFieldBox', {
+        fieldLabel: 'comboFieldBox {createNewOnEnter: true, forceSelection: false, height: 70}',
+        displayField: 'name',
+        value: ['AK', 'CT'],
+        emptyText: 'select a country...',
+        descField: 'slogan',
+        valueField: 'abbr',
+        width: 320,
+        labelWidth: 130,
+        store: store,
+        queryMode: 'local',
+        height: 70,
+        createNewOnEnter : true,
+        forceSelection: false
+	}); 
+	var simpleCombo = Ext.create('Ext.form.field.ComboBox', {
+        fieldLabel: 'Select a single state',
+        displayField: 'name',
+        valueField	:'abbr',
+        value:'AK',
+        width: 320,
+        //multiSelect: true, 
+        labelWidth: 130,
+        store: store,
+        //editable: false,
+        queryMode: 'local',
+        typeAhead: true
+    });
+    var textField = {xtype: 'textfield', fieldLabel: 'coucou'};
+
+    var form = Ext.create('Ext.form.Panel', {
+        renderTo:'formPanel',
+        title:'ComboFieldBox Examples',
+        bodyPadding: 10,
+        fieldDefaults: {
+            labelWidth: 55,
+            labelAlign: 'top',
+            anchor: '80%'
+        },
+        layout: 'anchor',
+        items: [textField, comboFieldBox, textField,comboFieldBox2, simpleCombo, textField]
+		});
+});
+    </script>
+    <style type="text/css">
+        .example {
+            width: 600px;
+            border: 1px solid #CCC;
+            padding: 0 10px;
+            margin: 0 0 10px;
+        }
+        .x-fieldset {
+            margin-top: 20px;
+        }
+        #transformCombo label {
+            display: block;
+            margin: 1em 0 2px;
+        }
+    </style>
+</head>
+<body>
+   	<div id="test1"/>
+	<div id="formPanel"></div>
+	</div>
+</body>
+</html>

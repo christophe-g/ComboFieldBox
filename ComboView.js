@@ -117,7 +117,7 @@
 	               	 this.applyRenderSelectors();
     	            this.addFocusListener(this);
             }
-        },
+        }
     },
     onDestroy: function () {
         var me = this,

@@ -3,15 +3,14 @@
 <head>
     <title>ComboFieldBox example</title>
 	
-    <link rel="stylesheet" type="text/css" href="../../extjs-4.1.1-rc1/resources/css/ext-all.css">
-    <!--link rel="stylesheet" type="text/css" href="colorField.css"-->
-    <link rel="stylesheet" type="text/css" href="ComboFieldBox.css">
+    <link rel="stylesheet" type="text/css" href="../../../extjs-4.1.1-rc1/resources/css/ext-all.css">
+    <link rel="stylesheet" type="text/css" href="../src/ComboFieldBox.css">
+    <link rel="stylesheet" type="text/css" href="ComboFieldBoxSample.css">
 
-    <script type="text/javascript" src="../../extjs-4.1.1-rc1/ext-all-debug.js"></script>
-    <script type="text/javascript" src="ComboView.js"></script>
-    <script type="text/javascript" src="ComboFieldBox.js"></script>
-   	<!--script type="text/javascript" src="ComboTree.js"></script-->
-    <script>
+    <script type="text/javascript" src="../../../extjs-4.1.1-rc1/ext-all-debug.js"></script>
+    <script type="text/javascript" src="../src/ComboView.js"></script>
+    <script type="text/javascript" src="../src/ComboFieldBox.js"></script>
+    <script type="text/javascript">
 		// Define the model for a State
 		Ext.define('State', {
 			extend: 'Ext.data.Model',
@@ -20,11 +19,10 @@
 				{type: 'string',name: 'name'},
 				{type: 'string',name: 'slogan'},
 				{type: 'string',name: 'iconCls'}
-			],
+			]
 		});
  Ext.onReady(function () {
 	Ext.tip.QuickTipManager.init();
-
 
 	// The data for all states
 	var states = [{"abbr": "AL","name": "Alabama","slogan": "The Heart of Dixie"},
@@ -43,17 +41,13 @@
 	var i;
 	for (i= 0; i<100; i++){
 		states.push({abbr: i, name: i, slogan: i})
-	};
-	
-	
+	}
 	
 	var store = Ext.create('Ext.data.Store', {
 		model: 'State',
 		data: states
 	});
 
-
-    
 	var comboFieldBox = Ext.create('Ext.ux.ComboFieldBox', {
         fieldLabel: 'comboFieldBox {typeAhead : true, iconClsField: "iconCls"}',
         displayField: 'name',
@@ -114,28 +108,13 @@
         },
         layout: 'anchor',
         items: [comboFieldBox, comboFieldBox2, simpleCombo]
-		});
+    });
 });
     </script>
-    <style type="text/css">
-        .example {
-            width: 600px;
-            border: 1px solid #CCC;
-            padding: 0 10px;
-            margin: 0 0 10px;
-        }
-        .x-fieldset {
-            margin-top: 20px;
-        }
-        #transformCombo label {
-            display: block;
-            margin: 1em 0 2px;
-        }
-    </style>
 </head>
 <body>
-   	<div id="test1"/>
-	<div id="formPanel"></div>
+   	<div id="test1">
+	    <div id="formPanel"></div>
 	</div>
 </body>
 </html>

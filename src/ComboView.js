@@ -1,9 +1,9 @@
 /**
  *   ComboView
  */
- Ext.define('Ext.ux.ComboView',
-    {extend : 'Ext.view.View', 
-         alias : 'widget.comboview', 
+Ext.define('Ext.ux.ComboView', {
+    extend : 'Ext.view.View',
+    alias : 'widget.comboview',
     /**
       * @cfg {Boolean} maxLength
       * maximum length for viewItems. If text is longer, it gets 'ellipsisied'.  
@@ -11,7 +11,7 @@
     maxLength: 18,
     /**
       * @cfg {Boolean} removeOnDblClick
-      * true to unselect viewItem on double click  
+      * true to deselect viewItem on double click
       */
     removeOnDblClick: true,
     /**
@@ -34,17 +34,17 @@
         me.tpl = new Ext.XTemplate(
             '<ul class="x-boxselect-list {fieldCls} {typeCls}">',
                 '{[this.empty(values)]}',
-                '<tpl for=".">', 
-                    '<li class="x-boxselect-item ', 
-                    iconClsField ? ('x-boxselect-icon {' + iconClsField + '}"') : '"', 
-                    descField ? ('data-qtitle="{' + displayField + '}" data-qtip="{' + descField + '}">') : '>', 
-                    '<div class="x-tab-close-btn ', me.closeCls, '"></div>', 
-                    '<div class="x-boxselect-item-text">{[this.ellipsis(values.', displayField, ')]}</div>', 
-                    '<div class="x-tab-close-btn ', me.closeCls, '"></div>', 
-                '</li>', 
-            '</tpl>', 
-			'<li class="x-boxselect-input"><input style="width:10px;"/></li>', // need this to manage focus; width of input is larger in createNewOnEnter is set to true
-        '</ul>', {
+                '<tpl for=".">',
+                    '<li class="x-boxselect-item ',
+                        iconClsField ? ('x-boxselect-icon {' + iconClsField + '}"') : '"',
+                        descField ? ('data-qtitle="{' + displayField + '}" data-qtip="{' + descField + '}">') : '>',
+                        '<div class="x-tab-close-btn ', me.closeCls, '"></div>',
+                        '<div class="x-boxselect-item-text">{[this.ellipsis(values.', displayField, ')]}</div>',
+                        '<div class="x-tab-close-btn ', me.closeCls, '"></div>',
+                    '</li>',
+                '</tpl>',
+			    '<li class="x-boxselect-input"><input style="width:10px;"/></li>', // need this to manage focus; width of input is larger in createNewOnEnter is set to true
+            '</ul>', {
             compiled: true,
             disableFormats: true,
             length: me.maxLength,
@@ -53,15 +53,15 @@
             },
             emptyText: me.emptyText,
             empty : function(values) {
-                return   '<span class="empty">' + (values.length  ? '' : this.emptyText )+ '</span>' 
+                return   '<span class="empty">' + (values.length  ? '' : this.emptyText )+ '</span>'
             }
-        })
+        });
         delete me.emptyText;
         return me.tpl;
     },
     initComponent: function () {
         var me = this;
-        if (!me.tpl) {me.tpl= me.setTpl()};
+        if (!me.tpl) {me.tpl= me.setTpl()}
         if (!me.selModel) {
             me.selModel = {enableKeyNav: false};
         }
@@ -74,14 +74,14 @@
     getFocusEl: function () {
         return this.inputEl
     },
-   addFocusListener: function (force) {
+    addFocusListener: function (force) {
         var me = this,  focusEl;
         if (!me.focusListenerAdded) {
             me.callParent(); // force argument only valid in ComboView
-                me.field.el.on({
-                    click: me.field.onFocus,
-                    scope: me.field
-                })
+            me.field.el.on({
+                click: me.field.onFocus,
+                scope: me.field
+            })
         }
         if ((focusEl = me.getFocusEl()) && force) {
             focusEl.on({
@@ -114,8 +114,8 @@
         refresh: {
             fn: function () { 
             	var me = this;
-	               	 this.applyRenderSelectors();
-    	            this.addFocusListener(this);
+                this.applyRenderSelectors();
+                this.addFocusListener(this);
             }
         }
     },

@@ -1,8 +1,8 @@
 /**
  *   ComboFieldBox
  */
- Ext.define('Ext.ux.ComboFieldBox',
-    {extend : 'Ext.form.field.ComboBox', 
+Ext.define('Ext.ux.ComboFieldBox', {
+    extend : 'Ext.form.field.ComboBox',
 	alias : 'widget.combofieldbox', 
 	requires: ['Ext.ux.ComboView'],
 	multiSelect: true,
@@ -102,11 +102,13 @@
        	var selModel = me.multiSelect ? {selModel: {mode: 'SIMPLE', enableKeyNav: false}} : {selModel: {mode: 'SINGLE',enableKeyNav: false}};
         //me.listConfig = Ext.apply(me.listConfig || {}, {selModel: {mode: me.multiSelect ? 'SIMPLE' : 'SINGLE', enableKeyNav: false}});
         me.listConfig = Ext.apply(me.listConfig || {}, selModel);
-        if(me.iconClsField || me.descField) {Ext.apply(me.listConfig, {getInnerTpl: function(displayField) {
-						return '<div data-qtip="{' +me.descField +'}" class="'+ ((me.iconClsField && me.listIconCls) ? me.listIconCls :'') +' {'+me.iconClsField + '}">{' + me.displayField +'}</div>';
-						}
-					})
-				};
+        if(me.iconClsField || me.descField) {
+            Ext.apply(me.listConfig, {
+                getInnerTpl: function(displayField) {
+                    return '<div data-qtip="{' +me.descField +'}" class="'+ ((me.iconClsField && me.listIconCls) ? me.listIconCls :'') +' {'+me.iconClsField + '}">{' + me.displayField +'}</div>';
+                }
+            });
+        }
         me.callParent(arguments);
     },
     onTrigger1Click : function() {
@@ -119,12 +121,12 @@
     },
     getValueStore: function() {
         var me = this;
-         return me.valueStore || (me.valueStore = me.createValueStore());
+        return me.valueStore || (me.valueStore = me.createValueStore());
     },
     createValueStore: function() {
         return this.valueStore = new Ext.data.Store({
-                    model: this.store.model
-            });
+            model: this.store.model
+        });
     },
     /**
     * get all field values from value store and re-set combobox values
@@ -154,16 +156,16 @@
         if(me.tempValue) {
     	    var picker = me.getPicker(),
 	        	oldPr = picker.preserveScrollOnRefresh;
-			value = Ext.Array.unique(value.concat(me.tempValue))
+			value = Ext.Array.unique(value.concat(me.tempValue));
         	var val = me.store.data.extractValues(me.valueField, 'data');
 			if(me.typeAhead && (me.store.getCount() == 1)) {
 				var v = me.store.getAt(0).get(me.valueField);
 				me.tempMulti != true ? value = [v] : value.push(v);
 				me._needCollapse = true;
 			}
-			me.store.data.addAll(Ext.Array.filter(me.valueStore.data.items, function(i) {return (Ext.Array.indexOf(val,i.data[me.valueField]) < 0)}))
+			me.store.data.addAll(Ext.Array.filter(me.valueStore.data.items, function(i) {return (Ext.Array.indexOf(val,i.data[me.valueField]) < 0)}));
 			picker.preserveScrollOnRefresh = true;
-			if(me.picker.refresh) {me.picker.refresh()}; 
+			if(me.picker.refresh) {me.picker.refresh()}
         	picker.preserveScrollOnRefresh = oldPr;
         }
         me.callParent([value, false]);
@@ -200,19 +202,19 @@
     	var me = this;
     	me.view.inputEl.dom.value ='';
     	me.view.inputEl.setWidth(10);
-    	if(me.view.emptyEl) {me.view.emptyEl.show()};
+    	if(me.view.emptyEl) {me.view.emptyEl.show()}
     }, 
     onFocus: function() {
     	var me = this,
     		view = me.view;
     	me.callParent(arguments);
-    	view.inputEl.setWidth(view.inputWidth)
+    	view.inputEl.setWidth(view.inputWidth);
    		if(me._preventClear != true) {
 	    	me.store.clearFilter();
-	    	if(me.picker && me.picker.refresh) {me.picker.refresh()};
+	    	if(me.picker && me.picker.refresh) {me.picker.refresh()}
     	}
     	if(view.emptyEl) {
-	    	view.emptyEl.setVisibilityMode(Ext.dom.AbstractElement.DISPLAY)
+	    	view.emptyEl.setVisibilityMode(Ext.dom.AbstractElement.DISPLAY);
     		view.emptyEl.hide()
     	}
     	me.view.focus();
@@ -229,7 +231,7 @@
                     if (selectOnTab || me.typeAhead) {
                         this.selectHighlighted(e);
                     }
-                   	me.onTriggerClick()
+                   	me.onTriggerClick();
 					return true
                 }, 
                 esc: function(e) {
@@ -243,14 +245,16 @@
             selectOnTab = me.selectOnTab,
             picker = me.getPicker();
         // Handle BoundList navigation from the input field. Insert a tab listener specially to enable selectOnTab.
-        if(!keyNav){   keyNav = me.listKeyNav = me.buildKeyNav()}
+        if(!keyNav){ keyNav = me.listKeyNav = me.buildKeyNav(); }
         // While list is expanded, stop tab monitoring from Ext.form.field.Trigger so it doesn't short-circuit selectOnTab
         if (selectOnTab) {
           me.ignoreMonitorTab = true;
        	}
         Ext.defer(keyNav.enable, 3, keyNav); //wait a bit so it doesn't react to the down arrow opening the picker
         picker.focus();
-        if(picker.getNode){picker.highlightItem(picker.getNode(0))};
+        if(picker.getNode){
+            picker.highlightItem(picker.getNode(0));
+        }
     },
     onCollapse: function() {
     	var me = this;
@@ -273,8 +277,8 @@
                 var selected = selModel.getSelection()[0];
                 if(selected) {
 	                var idx = Ext.Array.indexOf(me.view,me.view.getNode(selected));
-	                selModel.onNavKey.call(selModel, 1)
-	                me.getValueStore().remove(selected)       
+	                selModel.onNavKey.call(selModel, 1);
+	                me.getValueStore().remove(selected);
 					me.setStoreValues();
 					selModel.select(idx);
 	                me.view.focus()
@@ -304,22 +308,22 @@
                 enter: function(e) {
                 	if(me.readOnly || me.disabled || !me.editable) {return}
 					if (me.multiSelect && me.createNewOnEnter == true && e.getKey() == e.ENTER  && (rawValue = e.target.value) && (!Ext.isEmpty(rawValue))) {
-						 rec = me.store.findExact(me.valueField, rawValue);
+						 var rec = me.store.findExact(me.valueField, rawValue);
 						 if(rec < 0) {
-							rec= me.store.add(me.createRecord(rawValue))
+							rec= me.store.add(me.createRecord(rawValue));
 						 }
-						 me.getValueStore().add(rec)       
-						 me.setStoreValues()
+						 me.getValueStore().add(rec);
+						 me.setStoreValues();
 					}
-					me.view.focus()
+					me.view.focus();
                 },
                 tab: function(e) {
                 	if(me.isExpanded && e.target.value){
-						me.picker.focus()                	
+						me.picker.focus();
                 	}
                 	return true
                 },
-                del:del,
+                del: del,
                 space: del
             });
             Ext.defer(boxKeyNav.enable, 1, boxKeyNav);
@@ -327,7 +331,9 @@
     },
     onDestroy: function() {
         var me = this;
-        if(me.view) {Ext.destroy(me.view, me.boxKeyNav)}
+        if(me.view) {
+            Ext.destroy(me.view, me.boxKeyNav);
+        }
         me.callParent(arguments);
     }
 });

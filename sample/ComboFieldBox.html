@@ -47,21 +47,50 @@
 		model: 'State',
 		data: states
 	});
+	
+	Ext.define('Book',{
+        extend: 'Ext.data.Model',
+        fields: [
+            // set up the fields mapping into the xml doc
+            // The first needs mapping, the others are very basic
+            {name: 'ASIN', mapping: 'ASIN'},
+            {name: 'Author', mapping: 'ItemAttributes > Author'},
+            {name: 'Title', mapping: 'ItemAttributes > Title'},
+            'Manufacturer', 'ProductGroup'
+        ]
+    });
+    
+	 store2 = Ext.create('Ext.data.Store', {
+        model: 'Book',
+        //autoLoad: true,
+        proxy: {
+            // load using HTTP
+            type: 'ajax',
+            url: 'sheldon.xml',
+            // the return will be XML, so lets set up a reader
+            reader: {
+                type: 'xml',
+                // records will have an "Item" tag
+                record: 'Item',
+                idProperty: 'ASIN',
+                totalRecords: '@total'
+            }
+        }
+    });
 
 	var comboFieldBox = Ext.create('Ext.ux.ComboFieldBox', {
         fieldLabel: 'comboFieldBox {typeAhead : true, iconClsField: "iconCls"}',
-        displayField: 'name',
-        iconClsField: 'iconCls',
-        valueField: 'abbr',
-        value: ['FR'],
-        descField: 'slogan',
+        displayField: 'Title',
+        valueField: 'ASIN',
+        value: ['0446355453'],
+        descField: 'Author',
         emptyText: 'select a state ...', 
         width: 320,
         //editable: false,
         labelWidth: 130,
         //trigger2Cls:null,
         trigger1Cls: null,
-        store: store,
+        store: store2,
         //multiSelect: false,
         queryMode: 'local',
 		typeAhead: true
@@ -73,6 +102,7 @@
         displayField: 'name',
         value: ['AK', 'CT'],
         emptyText: 'select a country...',
+        iconClsField: 'iconCls',
         descField: 'slogan',
         valueField: 'abbr',
         width: 320,
@@ -85,17 +115,18 @@
 	}); 
 	var simpleCombo = Ext.create('Ext.form.field.ComboBox', {
         fieldLabel: 'Select a single state',
-        displayField: 'name',
-        valueField	:'abbr',
-        value:'AK',
+        displayField: 'Title',
+        valueField	:'ASIN',
+        value:'0446613657',
         width: 320,
-        //multiSelect: true, 
+        multiSelect: true, 
         labelWidth: 130,
-        store: store,
+        store: store2,
         //editable: false,
-        queryMode: 'local',
+        //queryMode: 'local',
         typeAhead: true
     });
+    
     
     var form = Ext.create('Ext.form.Panel', {
         renderTo:'formPanel',

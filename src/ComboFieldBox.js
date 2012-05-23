@@ -114,6 +114,7 @@ Ext.define('Ext.ux.ComboFieldBox', {
                 }
             });
         }
+        me.rawValue = me.value;
         me.callParent(arguments);
     },
     onTrigger1Click : function() {
@@ -145,7 +146,7 @@ Ext.define('Ext.ux.ComboFieldBox', {
     getValueModels: function () {
         return this.valueModels || [];
     },
-    afterSetValue: function (action){
+    afterSetValue: function (){
         var me = this;
 	    me.valueStore.removeAll();
 		me.valueStore.add(me.getValueModels());
@@ -157,7 +158,8 @@ Ext.define('Ext.ux.ComboFieldBox', {
 	},
 	assertValue: Ext.emptyFn,
     setValue: function (value, action) {
-        var me = this;
+        var me = this,
+        	st = me.store;
         if(Ext.isString(value)) {value = value.split(me.delimiter)};
         if(me.tempValue) {
     	    var picker = me.getPicker(),
@@ -175,7 +177,10 @@ Ext.define('Ext.ux.ComboFieldBox', {
         	picker.preserveScrollOnRefresh = oldPr;
         }
         me.callParent([value, false]);
-        me.afterSetValue(action)
+        me.value = value // need to reset the value here: in case the store is not yeat loaded and multiSelect == true, me.value is set to [] during the callParent. 
+        if(st.getCount() > 0 ) {return me.afterSetValue()}
+        if(!st.isLoading()) {st.load()}
+        st.on('load', me.afterSetValue, me, {single: true});
     },
     getRawValue: function () {
         return Ext.value(this.rawValue, '');
@@ -234,7 +239,7 @@ Ext.define('Ext.ux.ComboFieldBox', {
                 boundList: picker,
                 forceKeyDown: true,
                 tab: function(e) {
-                    if (selectOnTab || me.typeAhead) {
+                    if (selectOnTab || (me.typeAhead &&  me.view.inputEl.dom.value) ) { 
                         this.selectHighlighted(e);
                     }
                    	me.onTriggerClick();
@@ -245,10 +250,11 @@ Ext.define('Ext.ux.ComboFieldBox', {
                 }
             });
     },
-	onExpand: function() {
+  	onExpand: function() {
         var me = this,
             keyNav = me.listKeyNav,
             selectOnTab = me.selectOnTab,
+            node,
             picker = me.getPicker();
         // Handle BoundList navigation from the input field. Insert a tab listener specially to enable selectOnTab.
         if(!keyNav){ keyNav = me.listKeyNav = me.buildKeyNav(); }
@@ -258,8 +264,8 @@ Ext.define('Ext.ux.ComboFieldBox', {
        	}
         Ext.defer(keyNav.enable, 3, keyNav); //wait a bit so it doesn't react to the down arrow opening the picker
         picker.focus();
-        if(picker.getNode){
-            picker.highlightItem(picker.getNode(0));
+        if(picker.getNode && (node = picker.getNode(0))){
+            picker.highlightItem(node);
         }
     },
     onCollapse: function() {

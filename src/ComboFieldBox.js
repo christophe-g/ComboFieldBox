@@ -58,6 +58,11 @@ Ext.define('Ext.ux.ComboFieldBox', {
 	 * css class to use when an iconClsField is set. This class is injected into getInnerTpl method when constructing the comboBox boundList
 	 */
     listIconCls : 'x-boundlist-icon',
+    /**
+	 * @cfg {String} delimiter
+	 * string delimiter. default ' ' overrides parent class ', '. Used in setvalue (if value is a string) to split values. 
+	 */
+    delimiter: ' ',
     fieldSubTpl: [
         '<div class="{hiddenDataCls}" role="presentation"></div>',
         '<div id="{id}"',
@@ -153,6 +158,7 @@ Ext.define('Ext.ux.ComboFieldBox', {
 	assertValue: Ext.emptyFn,
     setValue: function (value, action) {
         var me = this;
+        if(Ext.isString(value)) {value = value.split(me.delimiter)};
         if(me.tempValue) {
     	    var picker = me.getPicker(),
 	        	oldPr = picker.preserveScrollOnRefresh;
@@ -262,7 +268,7 @@ Ext.define('Ext.ux.ComboFieldBox', {
     	me.view.focus();
     },
     createRecord: function(rawValue) {
-   		var me= this, rec = {};
+   		var me= this, rec = {}, val = rawValue.split(me.delimiter).join('') ;
 		rec[me.valueField] = rawValue;
 		rec[me.displayField] = rawValue;
 		return rec

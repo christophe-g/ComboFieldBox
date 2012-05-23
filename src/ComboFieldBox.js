@@ -103,6 +103,7 @@ Ext.define('Ext.ux.ComboFieldBox', {
         	me.onTrigger1Click = null;
         	me.trigger2Cls = null;
         }
+        me.bindStore(me.store || 'ext-empty-store', true);
         me.getValueStore();
        	var selModel = me.multiSelect ? {selModel: {mode: 'SIMPLE', enableKeyNav: false}} : {selModel: {mode: 'SINGLE',enableKeyNav: false}};
         me.listConfig = Ext.apply(me.listConfig || {}, selModel);

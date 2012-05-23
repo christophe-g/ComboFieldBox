@@ -45,7 +45,8 @@
 	
 	var store = Ext.create('Ext.data.Store', {
 		model: 'State',
-		data: states
+		data: states,
+		storeId: 'storeId'
 	});
 	
 	Ext.define('Book',{
@@ -95,7 +96,7 @@
         labelWidth: 130,
         //trigger2Cls:null,
         trigger1Cls: null,
-        store: store,
+        store: 'storeId',
         //multiSelect: false,
         queryMode: 'local',
 		typeAhead: true

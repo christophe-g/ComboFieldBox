@@ -105,7 +105,6 @@ Ext.define('Ext.ux.ComboFieldBox', {
         }
         me.getValueStore();
        	var selModel = me.multiSelect ? {selModel: {mode: 'SIMPLE', enableKeyNav: false}} : {selModel: {mode: 'SINGLE',enableKeyNav: false}};
-        //me.listConfig = Ext.apply(me.listConfig || {}, {selModel: {mode: me.multiSelect ? 'SIMPLE' : 'SINGLE', enableKeyNav: false}});
         me.listConfig = Ext.apply(me.listConfig || {}, selModel);
         if(me.iconClsField || me.descField) {
             Ext.apply(me.listConfig, {
@@ -195,7 +194,6 @@ Ext.define('Ext.ux.ComboFieldBox', {
 	    	this.doQuery(qe, false, true);
 	    	me.multiSelect = me.tempMulti; 
 	        delete me.tempMulti;
-	        delete me.tempValue;
 			if(me._needCollapse){
 				me.collapse();
 		        delete me._needCollapse;				
@@ -207,13 +205,15 @@ Ext.define('Ext.ux.ComboFieldBox', {
 				me.view.inputEl.dom.value=qe;
 				delete me._preventClear;
 	        }
+	        delete me.tempValue;
 		}
     },
     onBlur: function() {
     	var me = this;
     	me.view.inputEl.dom.value ='';
     	me.view.inputEl.setWidth(10);
-    	if(me.view.emptyEl) {me.view.emptyEl.show()}
+    	if(me.view.emptyEl) {me.view.emptyEl.show()};
+    	if(me.picker && me.isExpanded && me._preventCollapse != true) {me.onTriggerClick()};
     }, 
     onFocus: function() {
     	var me = this,
@@ -239,7 +239,7 @@ Ext.define('Ext.ux.ComboFieldBox', {
                 boundList: picker,
                 forceKeyDown: true,
                 tab: function(e) {
-                    if (selectOnTab || (me.typeAhead &&  me.view.inputEl.dom.value) ) { 
+                    if (selectOnTab || (me.typeAhead &&  (me.view.inputEl.dom.value || me.tempValue)) ) { 
                         this.selectHighlighted(e);
                     }
                    	me.onTriggerClick();
@@ -263,10 +263,19 @@ Ext.define('Ext.ux.ComboFieldBox', {
           me.ignoreMonitorTab = true;
        	}
         Ext.defer(keyNav.enable, 3, keyNav); //wait a bit so it doesn't react to the down arrow opening the picker
+        me.highlightFirstNode()
+       
+    },
+    highlightFirstNode: function(select) {
+    	var me = this,
+    		picker =  me.getPicker();
+    	me._preventCollapse = true;
         picker.focus();
+        delete me.preventCollapse;
         if(picker.getNode && (node = picker.getNode(0))){
             picker.highlightItem(node);
         }
+    	
     },
     onCollapse: function() {
     	var me = this;
@@ -330,8 +339,11 @@ Ext.define('Ext.ux.ComboFieldBox', {
 					me.view.focus();
                 },
                 tab: function(e) {
-                	if(me.isExpanded && e.target.value){
-						me.picker.focus();
+                	if(me.isExpanded && e.target.value ){
+						me.highlightFirstNode();
+						if(me.typeAhead) {
+							me.listKeyNav.selectHighlighted(e)
+						}
                 	}
                 	return true
                 },

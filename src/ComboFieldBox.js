@@ -177,9 +177,12 @@ Ext.define('Ext.ux.ComboFieldBox', {
         	picker.preserveScrollOnRefresh = oldPr;
         }
         me.callParent([value, false]);
-        me.value = value // need to reset the value here: in case the store is not yeat loaded and multiSelect == true, me.value is set to [] during the callParent. 
+        me.value = value; // need to reset the value here: in case the store is not yeat loaded and multiSelect == true, me.value is set to [] during the callParent. 
         if(st.getCount() > 0 ) {return me.afterSetValue()}
-        if(!st.isLoading()) {st.load()}
+        if(!st.isLoading() && me._isStoreLoadCalled !== true) {
+            st.load();
+            me._isStoreLoadCalled = true;
+        }
         st.on('load', me.afterSetValue, me, {single: true});
     },
     getRawValue: function () {
